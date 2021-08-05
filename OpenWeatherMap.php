@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-class OpenWeatherMap{
+class OpenWeatherMap
+{
 
     private $cityName;
     private $stateCode;
@@ -9,67 +10,57 @@ class OpenWeatherMap{
     private $url;
     private $units;
 
-    public function __construct($cityName="", $stateCode="", $countryCode="", $apiKey="", $units="metric"){
+    public function __construct($cityName = "", $stateCode = "", $countryCode = "", $apiKey = "", $units = "metric")
+    {
         $this->cityName = $cityName;
         $this->stateCode = $stateCode;
         $this->countryCode = $countryCode;
-        $this->apiKey = $apiKey;        
+        $this->apiKey = $apiKey;
         $this->units = $units;
-        $this->url = Config::read('openweathermap.accesstokenurl').'?q='
-            .$this->cityName.','
-            .$this->stateCode.','
-            .$this->countryCode.'&units='
-            .$this->units.'&appid='
-            .$this->apiKey;        
+        $this->url = Config::read('openweathermap.accesstokenurl') . '?q='
+            . $this->cityName . ','
+            . $this->stateCode . ','
+            . $this->countryCode . '&units='
+            . $this->units . '&appid='
+            . $this->apiKey;
     }
 
-    public function getData(){
-        $options = array(
-            CURLOPT_RETURNTRANSFER => true,   // return web page
-            CURLOPT_HEADER         => false,  // don't return headers
-            CURLOPT_FOLLOWLOCATION => true,   // follow redirects
-            CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
-            CURLOPT_ENCODING       => "",     // handle compressed
-            CURLOPT_USERAGENT      => "test", // name of client
-            CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
-            CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
-            CURLOPT_TIMEOUT        => 120,    // time-out on response
-        ); 
-    
-        $ch = curl_init($this->url);
-        curl_setopt_array($ch, $options);
-    
-        $content  = curl_exec($ch);
-    
-        curl_close($ch);
-    
-        return $content;
+    /**
+     * Get data from OpenWeatherMap
+     * @return  string
+     * With the weather information from the url specified in the Config::read('openweathermap.accesstokenurl') in the config file
+     */
+    public function getData()
+    {     
+        $options[CURLOPT_URL] = $this->url;
+        $ws = new WebService();
+        $ws->init($options);
+
+        return $ws->run();
     }
 
 
     /**
      * Get the value of cityName
-     */ 
+     * @return  string
+     */
     public function getCityName()
     {
         return $this->cityName;
     }
 
     /**
-     * Set the value of cityName
-     *
-     * @return  self
-     */ 
+     * Set the value of cityName     
+     */
     public function setCityName($cityName)
     {
         $this->cityName = $cityName;
-
-        return $this;
     }
 
     /**
      * Get the value of stateCode
-     */ 
+     * @return  string
+     */
     public function getStateCode()
     {
         return $this->stateCode;
@@ -77,19 +68,17 @@ class OpenWeatherMap{
 
     /**
      * Set the value of stateCode
-     *
-     * @return  self
-     */ 
+     *     
+     */
     public function setStateCode($stateCode)
     {
         $this->stateCode = $stateCode;
-
-        return $this;
     }
 
     /**
      * Get the value of countryCode
-     */ 
+     * @return  string
+     */
     public function getCountryCode()
     {
         return $this->countryCode;
@@ -97,33 +86,27 @@ class OpenWeatherMap{
 
     /**
      * Set the value of countryCode
-     *
-     * @return  self
-     */ 
+     * @return  string
+     */
     public function setCountryCode($countryCode)
     {
         $this->countryCode = $countryCode;
-
-        return $this;
     }
 
     /**
      * Get the value of apiKey
-     */ 
+     * @return  string
+     */
     public function getApiKey()
     {
         return $this->apiKey;
     }
 
     /**
-     * Set the value of apiKey
-     *
-     * @return  self
-     */ 
+     * Set the value of apiKey          
+     */
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
-
-        return $this;
     }
 }
