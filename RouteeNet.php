@@ -3,26 +3,27 @@
 class RouteeNet
 {
 
-    private $applicationId;
-    private $applicationSecret;
+    private $applicationId; //The application id used in the Routee API: Example: 5c5d5e28e4b0bae5f4accfec  
+    private $applicationSecret; //The application secret used in the Routee API: Example: MGkNfqGud0 
     private $curlCainfo; //curl.cainfo in php.ini file
 
 
-    public function __construct($applicationId, $applicationSecret)
+    public function __construct(string $applicationId, string $applicationSecret)
     {
 
         $this->applicationId = $applicationId;
         $this->applicationSecret = $applicationSecret;
-        $this->curlCainfo = "C:\\wamp64\\bin\\php\\php7.3.12\\extras\\ssl\\cacert.pem";
+        $this->curlCainfo = Config::read('routee.curlcainfo');
     }
 
+    //Sends the sms using the routee.net web services sms method
     public function sendSMS($message, $mobileNumber, $from)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_CAINFO, $this->curlCainfo);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://connect.routee.net/sms",
+            CURLOPT_URL => Config::read('routee.smsurl'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -51,13 +52,13 @@ class RouteeNet
     }
 
     //Gets the access token from routee. It uses the encoded version of the application id and the application secret
-    public function getAccessToken()
+    public function getAccessToken() : string
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_CAINFO, $this->curlCainfo);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://auth.routee.net/oauth/token",
+            CURLOPT_URL => Config::read('routee.accesstokenurl'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -84,9 +85,70 @@ class RouteeNet
         }
     }
 
-    public function encodeBase64()
+    //Enocdes the applicationid and the secret as defined in the tutorial
+    public function encodeBase64() : string
     {
 
         return base64_encode($this->applicationId . ':' . $this->applicationSecret);
+    }
+
+    /**
+     * Get the value of applicationId
+     */ 
+    public function getApplicationId()
+    {
+        return $this->applicationId;
+    }
+
+    /**
+     * Set the value of applicationId
+     *
+     * @return  self
+     */ 
+    public function setApplicationId($applicationId)
+    {
+        $this->applicationId = $applicationId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of applicationSecret
+     */ 
+    public function getApplicationSecret()
+    {
+        return $this->applicationSecret;
+    }
+
+    /**
+     * Set the value of applicationSecret
+     *
+     * @return  self
+     */ 
+    public function setApplicationSecret($applicationSecret)
+    {
+        $this->applicationSecret = $applicationSecret;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of curlCainfo
+     */ 
+    public function getCurlCainfo()
+    {
+        return $this->curlCainfo;
+    }
+
+    /**
+     * Set the value of curlCainfo
+     *
+     * @return  self
+     */ 
+    public function setCurlCainfo($curlCainfo)
+    {
+        $this->curlCainfo = $curlCainfo;
+
+        return $this;
     }
 }
