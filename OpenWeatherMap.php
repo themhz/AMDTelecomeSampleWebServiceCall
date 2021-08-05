@@ -15,7 +15,12 @@ class OpenWeatherMap{
         $this->countryCode = $countryCode;
         $this->apiKey = $apiKey;        
         $this->units = $units;
-        $this->url = Config::read('openweathermap.accesstokenurl').'?q='.$this->cityName.','.$this->stateCode.','.$this->countryCode.'&units='.$this->units.'&appid='.$this->apiKey;        
+        $this->url = Config::read('openweathermap.accesstokenurl').'?q='
+            .$this->cityName.','
+            .$this->stateCode.','
+            .$this->countryCode.'&units='
+            .$this->units.'&appid='
+            .$this->apiKey;        
     }
 
     public function getData(){

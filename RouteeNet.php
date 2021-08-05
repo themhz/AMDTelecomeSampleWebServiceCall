@@ -88,67 +88,60 @@ class RouteeNet
     //Enocdes the applicationid and the secret as defined in the tutorial
     public function encodeBase64() : string
     {
-
         return base64_encode($this->applicationId . ':' . $this->applicationSecret);
     }
 
     /**
      * Get the value of applicationId
+     * @return  string
      */ 
-    public function getApplicationId()
+    public function getApplicationId() : string
     {
         return $this->applicationId;
     }
 
     /**
      * Set the value of applicationId
-     *
-     * @return  self
+     *     
      */ 
     public function setApplicationId($applicationId)
     {
-        $this->applicationId = $applicationId;
-
-        return $this;
+        $this->applicationId = $applicationId;        
     }
 
     /**
      * Get the value of applicationSecret
+     * @return  string
      */ 
-    public function getApplicationSecret()
+    public function getApplicationSecret(): string
     {
         return $this->applicationSecret;
     }
 
     /**
      * Set the value of applicationSecret
-     *
-     * @return  self
+     *     
      */ 
     public function setApplicationSecret($applicationSecret)
     {
         $this->applicationSecret = $applicationSecret;
-
-        return $this;
     }
 
     /**
      * Get the value of curlCainfo
+     * @return  string
      */ 
-    public function getCurlCainfo()
+    public function getCurlCainfo() : string
     {
         return $this->curlCainfo;
     }
 
     /**
      * Set the value of curlCainfo
-     *
-     * @return  self
+     *     
      */ 
     public function setCurlCainfo($curlCainfo)
     {
         $this->curlCainfo = $curlCainfo;
-
-        return $this;
     }
 }
