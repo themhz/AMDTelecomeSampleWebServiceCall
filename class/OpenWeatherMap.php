@@ -10,14 +10,14 @@ class OpenWeatherMap extends WebService
     private $url;
     private $units;
 
-    public function __construct($cityName = "", $stateCode = "", $countryCode = "", $apiKey = "", $units = "metric")
-    {
+    public function __construct(string $cityName = "", string $stateCode = "", string $countryCode = "", string  $apiKey = "", string  $units = "metric")
+    {        
         $this->cityName = $cityName;
         $this->stateCode = $stateCode;
         $this->countryCode = $countryCode;
         $this->apiKey = $apiKey;
-        $this->units = $units;
-        $this->url = Config::read('openweathermap.accesstokenurl') . '?q='
+        $this->units = $units;      
+        $this->url = CONFIG["openweathermap_accesstokenurl"] . '?q='
             . $this->cityName . ','
             . $this->stateCode . ','
             . $this->countryCode . '&units='

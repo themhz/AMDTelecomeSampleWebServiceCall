@@ -13,13 +13,13 @@ class RouteeNet
 
         $this->applicationId = $applicationId;
         $this->applicationSecret = $applicationSecret;
-        $this->curlCainfo = Config::read('routee.curlcainfo');       
+        $this->curlCainfo = CONFIG['routee_curlcainfo'];
     }
 
     //Gets the access token from routee. It uses the encoded version of the application id and the application secret
     public function getAccessToken(): string
     {
-        $options[CURLOPT_URL] = Config::read('routee.accesstokenurl');
+        $options[CURLOPT_URL] = CONFIG['routee_accesstokenurl'];
         $options[CURLOPT_CAINFO] = $this->curlCainfo;
         $options[CURLOPT_POSTFIELDS] = "grant_type=client_credentials";
         $options[CURLOPT_HTTPHEADER] = array(
@@ -42,7 +42,7 @@ class RouteeNet
     private function checkResponse(stdClass $result)
     {               
         if (isset($result->status) && $result->status == "401") {
-            echo '<p style="color:red;">error: url:' . Config::read('routee.accesstokenurl') . ' did not return any data. Message returned was: ' . $result->message . ' with code :' . $result->status . '</p>';
+            echo '<p style="color:red;">error: url:' . CONFIG['routee_accesstokenurl'] . ' did not return any data. Message returned was: ' . $result->message . ' with code :' . $result->status . '</p>';
             echo '<br>';
             echo '<pre style="border:1px solid red;">original message: ' . json_encode($result) . '<pre>';
             exit();

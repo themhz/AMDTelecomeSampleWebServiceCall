@@ -12,7 +12,7 @@ class RouteeSms extends RouteeNet
     //Sends the sms using the routee.net web services sms method
     public function send($message, $mobileNumber, $from)
     {
-        $options[CURLOPT_URL] = Config::read('routee.smsurl');
+        $options[CURLOPT_URL] = CONFIG['routee_smsurl'];
         $options[CURLOPT_CAINFO] = $this->curlCainfo;
         $options[CURLOPT_POSTFIELDS] = "{ \"body\": \"$message\",\"to\" : \"$mobileNumber\",\"from\": \"$from\"}";
         $options[CURLOPT_HTTPHEADER] = array(
