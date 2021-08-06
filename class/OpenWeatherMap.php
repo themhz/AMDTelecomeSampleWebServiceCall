@@ -1,6 +1,6 @@
 <?php
 
-class OpenWeatherMap
+class OpenWeatherMap extends WebService
 {
 
     private $cityName;
@@ -23,6 +23,7 @@ class OpenWeatherMap
             . $this->countryCode . '&units='
             . $this->units . '&appid='
             . $this->apiKey;
+        parent::__construct();
     }
 
     /**
@@ -31,25 +32,26 @@ class OpenWeatherMap
      * With the weather information from the url specified in the Config::read('openweathermap.accesstokenurl') in the config file
      */
     public function getData()
-    {     
+    {
         $options[CURLOPT_URL] = $this->url;
-        $ws = new WebService();
-        $ws->init($options);
 
-        $result = $ws->run();
+        $this->init($options);
 
-        $this->checkResponse($result); 
+        $result = $this->run();
+
+        $this->checkResponse($result);
 
         return $result;
     }
 
 
-    private function checkResponse($result){
+    private function checkResponse($result)
+    {
         $check = json_decode($result);
-        if($check->cod == 404){
-            echo '<p style="color:red;">error: no weather data because server returned '.$check->message. ' with code :'.$check->cod.'</p>';
-            echo '<br>';            
-            echo '<pre style="border:1px solid red;">original message: '. $result . '<pre>';
+        if (isset($check->cod) && $check->cod == 404) {
+            echo '<p style="color:red;">error: no weather data because server returned ' . $check->message . ' with code :' . $check->cod . '</p>';
+            echo '<br>';
+            echo '<pre style="border:1px solid red;">original message: ' . $result . '<pre>';
             exit();
         }
     }

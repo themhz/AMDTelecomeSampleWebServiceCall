@@ -3,7 +3,7 @@
 class RouteeNet
 {
 
-    protected $applicationId; //The application id used in the Routee API: Example: 5c5d5e28e4b0bae5f4accfec  
+    protected string $applicationId; //The application id used in the Routee API: Example: 5c5d5e28e4b0bae5f4accfec  
     protected $applicationSecret; //The application secret used in the Routee API: Example: MGkNfqGud0 
     protected $curlCainfo; //curl.cainfo in php.ini file
 
@@ -13,7 +13,7 @@ class RouteeNet
 
         $this->applicationId = $applicationId;
         $this->applicationSecret = $applicationSecret;
-        $this->curlCainfo = Config::read('routee.curlcainfo');
+        $this->curlCainfo = Config::read('routee.curlcainfo');       
     }
 
     //Gets the access token from routee. It uses the encoded version of the application id and the application secret
@@ -26,9 +26,11 @@ class RouteeNet
             "authorization: Basic " . $this->encodeBase64(),
             "content-type: application/x-www-form-urlencoded"
         );
-
+        
         $ws = new WebService();
         $ws->init($options);
+
+   
         $decodedData = json_decode($ws->run());
 
         $this->checkResponse($decodedData);
@@ -37,7 +39,7 @@ class RouteeNet
     }
 
     //Check the response from routee server
-    private function checkResponse($result)
+    private function checkResponse(stdClass $result)
     {               
         if (isset($result->status) && $result->status == "401") {
             echo '<p style="color:red;">error: url:' . Config::read('routee.accesstokenurl') . ' did not return any data. Message returned was: ' . $result->message . ' with code :' . $result->status . '</p>';
@@ -66,7 +68,7 @@ class RouteeNet
      * Set the value of applicationId
      *     
      */
-    public function setApplicationId($applicationId)
+    public function setApplicationId(string $applicationId)
     {
         $this->applicationId = $applicationId;
     }
@@ -84,7 +86,7 @@ class RouteeNet
      * Set the value of applicationSecret
      *     
      */
-    public function setApplicationSecret($applicationSecret)
+    public function setApplicationSecret(string $applicationSecret)
     {
         $this->applicationSecret = $applicationSecret;
     }
@@ -102,7 +104,7 @@ class RouteeNet
      * Set the value of curlCainfo
      *     
      */
-    public function setCurlCainfo($curlCainfo)
+    public function setCurlCainfo(string $curlCainfo)
     {
         $this->curlCainfo = $curlCainfo;
     }
