@@ -4,6 +4,9 @@ class WebService{
 
     protected $options;
 
+    /**
+     * Constructor that creates the default options for the curl 
+     */
     public function __construct(){
 
         $this->options = array(            
@@ -21,16 +24,27 @@ class WebService{
         );        
     }
 
-    //Combines the two options. First options are the default curl options which can be changed
-    //The second ones are the specific ones that correspond to spefic calls like the url, curlCainfo post fields and http header
+    
+    
+    /**
+     * Combines the two options. First options are the default curl options which can be changed
+     * The second ones are the specific ones that correspond to spefic calls like the url, curlCainfo post fields and http header
+     *
+     * @param array $options
+     * @return void
+     */
     public function init(array $options){
         $this->options = (array) $this->options + $options;
     }
 
+    /**
+     * returns a json string to the caller but if there is an error it will halt the program and print the error message
+     *
+     * @return json string
+     */
     public function run(){
 
-        $curl = curl_init();
-            
+        $curl = curl_init();            
         curl_setopt_array($curl, $this->options);        
         $response = curl_exec($curl);    
         $err = curl_error($curl);
