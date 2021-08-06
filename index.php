@@ -1,35 +1,22 @@
 <?php
+/*About
+----------------------------------------------------------------
+Asignment from https://www.amdtelecom.net/ 
+User gets a mechanism capable to examine whether data and depending
+on the temperature and send sms message to a specified number.
+This appliation is using Weather Api from https://openweathermap.org/  to access current weather data for the Thessaloniki.
+API documentation https://openweathermap.org/api
+Uses the endpoint api.openweathermap.org for your API calls
+*/
 
+
+//Requires the config.php file that has the basic configuration parameters of the app like the routee api url and the openweather url
 require_once 'config.php';
-require_once 'class/WebService.php';
-require_once 'class/OpenWeatherMap.php';
-require_once 'class/RouteeNet.php';
-require_once 'class/RouteeSms.php';
 
+//This line is required to autoload the classes. I am not using composer since we are aiming for vanila php code.
+spl_autoload_register(function ($class_name) {
+    require_once 'class/'.$class_name . '.php';
+});
 
-$owm = new OpenWeatherMap("Thessaloníki", "734077", "GR", "b385aa7d4e568152288b3c9f5c2458a5");
-$response = $owm->getData();
-
-
-$routee = new RouteeSms("5c5d5e28e4b0bae5f4accfec", "MGkNfqGud0");
-//$mobileNumber = "+306911111111";
-$mobileNumber = "+306911111111";
-$from = "amdTelecom";
-
-
-$resArr = json_decode($response);
-
-  
-if ($resArr->main->temp > 20) {
-    $message =  "temperature is greater than 20C send SMS message to +30 6911111111 with text 'Your name and Temperature more than 20C. Temperture is " . $resArr->main->temp . "'";
-} else {
-    $message =  "send sms message to +30  6911111111 with text 'Your name and Temperature less than 20C. Temperture is " . $resArr->main->temp . "'";
-}
-
-
-$response = $routee->send($message, $mobileNumber, $from);
-$resArr = json_decode($response);
-
- echo "<pre>";
- print_r($resArr);
- echo "</pre>";
+$amdtelecom = new AMDTelecomeSampleWebServiceCall();
+$amdtelecom->start();
