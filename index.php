@@ -1,10 +1,10 @@
 <?php
 
-require_once 'Config.php';
-require_once 'WebService.php';
-require_once 'OpenWeatherMap.php';
-require_once 'RouteeNet.php';
-require_once 'RouteeSms.php';
+require_once 'config.php';
+require_once 'class/WebService.php';
+require_once 'class/OpenWeatherMap.php';
+require_once 'class/RouteeNet.php';
+require_once 'class/RouteeSms.php';
 
 
 $owm = new OpenWeatherMap("Thessaloníki", "734077", "GR", "b385aa7d4e568152288b3c9f5c2458a5");

@@ -36,10 +36,23 @@ class OpenWeatherMap
         $ws = new WebService();
         $ws->init($options);
 
-        return $ws->run();
+        $result = $ws->run();
+
+        $this->checkResponse($result); 
+
+        return $result;
     }
 
 
+    private function checkResponse($result){
+        $check = json_decode($result);
+        if($check->cod == 404){
+            echo '<p style="color:red;">error: no weather data because server returned '.$check->message. ' with code :'.$check->cod.'</p>';
+            echo '<br>';            
+            echo '<pre style="border:1px solid red;">original message: '. $result . '<pre>';
+            exit();
+        }
+    }
     /**
      * Get the value of cityName
      * @return  string

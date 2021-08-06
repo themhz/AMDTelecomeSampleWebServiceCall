@@ -27,15 +27,18 @@ class WebService{
     }
 
     public function run(){
+
         $curl = curl_init();
         curl_setopt_array($curl, $this->options);
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-
+        
         if ($err) {
-            return "cURL Error #:" . $err;
+            echo '<p style="color:red">cURL Error #:' . $err.'</p>';    
+            exit();
         } else {            
+            
             return $response;
         }
     }

@@ -30,7 +30,21 @@ class RouteeNet
         $ws = new WebService();
         $ws->init($options);
         $decodedData = json_decode($ws->run());
+
+        $this->checkResponse($decodedData);
+
         return $decodedData->access_token;
+    }
+
+    //Check the response from routee server
+    private function checkResponse($result)
+    {               
+        if (isset($result->status) && $result->status == "401") {
+            echo '<p style="color:red;">error: url:' . Config::read('routee.accesstokenurl') . ' did not return any data. Message returned was: ' . $result->message . ' with code :' . $result->status . '</p>';
+            echo '<br>';
+            echo '<pre style="border:1px solid red;">original message: ' . json_encode($result) . '<pre>';
+            exit();
+        }
     }
 
     //Enocdes the applicationid and the secret as defined in the tutorial
