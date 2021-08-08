@@ -23,4 +23,5 @@ require_once 'autoload.php';
 
 //Starting the application 
 $amdtelecom = new AMDTelecomeSampleWebServiceCall();
-$amdtelecom->start();
+$response = $amdtelecom->start();
+echo json_encode($response);

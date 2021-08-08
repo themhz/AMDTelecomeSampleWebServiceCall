@@ -2,14 +2,20 @@
 
 class RouteeSms extends RouteeNet
 {
-
-
+    /**
+     * Constructor to call the parent constructor
+     */
     public function __construct(string $applicationId, string $applicationSecret)
     {
         parent::__construct($applicationId, $applicationSecret);
     }
 
-    //Sends the sms using the routee.net web services sms method
+    
+     /**
+     * Sends the sms using the routee.net web services sms method
+     *
+     * @return string
+     */
     public function send($message, $mobileNumber, $from)
     {
         $options[CURLOPT_URL] = CONFIG['routee_smsurl'];

@@ -3,37 +3,61 @@
 class AMDTelecomeSampleWebServiceCall
 {
 
+    public $data;
     public function __construct()
     {
+        $r = new Request();
+        $this->data = $r->body();
     }
 
-
+    /**
+     * Starts the application main execution body 
+     * Calls the openweathermap with the specfic parameters returns the data converts them to json checks if the weather is above or below 20 C in temperture
+     * and then sends the sms to the specified mobile phone
+     *
+     * @return void
+     */
     public function start()
     {
-
-
+        
         $owm = new OpenWeatherMap("Thessaloníki", "734077", "GR", "b385aa7d4e568152288b3c9f5c2458a5");
         $response = $owm->getData();
 
-        $resArr = json_decode($response);              
+        $resArr = json_decode($response);
 
-      
+        if ($resArr->main->temp > 20) {
+            $message =  "temperature is greater than 20C ".$this->getName()." temperture is " . $resArr->main->temp . "'";
+        } else {
+            $message =  $this->getName()." Temperature less than 20C. Temperture is " . $resArr->main->temp . "'";
+        }
+
         $routee = new RouteeSms("5c5d5e28e4b0bae5f4accfec", "MGkNfqGud0");
-        $mobileNumber = "+306911111111";
+        $mobileNumber = '+'.$this->getPhone();
         $from = "amdTelecom";
-
-         if ($resArr->main->temp > 20) {
-             $message =  "temperature is greater than 20C send SMS message to +30 6911111111 with text 'Your name and Temperature more than 20C. Temperture is " . $resArr->main->temp . "'";
-         } else {
-             $message =  "send sms message to +30  6911111111 with text 'Your name and Temperature less than 20C. Temperture is " . $resArr->main->temp . "'";
-         }
-
 
         $response = $routee->send($message, $mobileNumber, $from);
         $resArr = json_decode($response);
 
-        echo "<pre>";
-        print_r($resArr);
-        echo "</pre>";
+
+        return $resArr;
+    }
+
+    public function getName()
+    {
+        $val = isset($this->data['name']) ? $this->data['name'] : $this->error('name');
+
+        return $val;
+    }
+
+    public function getPhone()
+    {
+        $val = isset($this->data['phone']) ? $this->data['phone'] : $this->error('phone');
+
+        return $val;
+    }
+
+    public function error($msg){
+        echo json_encode("{error : 'you need to specify a $msg'} in order to send the sms");
+        exit();
     }
 }

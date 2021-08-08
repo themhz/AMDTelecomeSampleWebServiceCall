@@ -48,8 +48,11 @@ class RouteeNet
             exit();
         }
     }
-
-    //Enocdes the applicationid and the secret as defined in the tutorial
+    
+    /**
+     * Enocdes the applicationid and the secret as defined in the tutorial
+     * @return string
+     */
     public function encodeBase64(): string
     {
         return base64_encode($this->applicationId . ':' . $this->applicationSecret);
@@ -57,7 +60,7 @@ class RouteeNet
 
     /**
      * Get the value of applicationId
-     * @return  string
+     * @return string
      */
     public function getApplicationId(): string
     {
@@ -102,7 +105,7 @@ class RouteeNet
 
     /**
      * Set the value of curlCainfo
-     *     
+     * @param string    
      */
     public function setCurlCainfo(string $curlCainfo)
     {

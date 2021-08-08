@@ -23,15 +23,12 @@ class WebService{
             CURLOPT_VERBOSE =>1
         );        
     }
-
-    
-    
+        
     /**
      * Combines the two options. First options are the default curl options which can be changed
      * The second ones are the specific ones that correspond to spefic calls like the url, curlCainfo post fields and http header
      *
      * @param array $options
-     * @return void
      */
     public function init(array $options){
         $this->options = (array) $this->options + $options;
@@ -40,7 +37,7 @@ class WebService{
     /**
      * returns a json string to the caller but if there is an error it will halt the program and print the error message
      *
-     * @return json string
+     * @return string
      */
     public function run(){
 
