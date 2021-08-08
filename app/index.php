@@ -34,6 +34,8 @@ how to run
 2. go to the url localhost:8080/public
 3. click "send" to send the sms and wait for the response
 4. the response will be returned in the result tab as a json string
+
+Code can be found https://github.com/themhz/AMDTelecomeSampleWebServiceCall
 */
 
 
