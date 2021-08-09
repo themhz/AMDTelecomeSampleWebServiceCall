@@ -1,6 +1,6 @@
 Amd Telecome Service Demo for sending sms
 -------------------------------------------
-This application communicates with the OpenWeatherMap web service /n
+This application communicates with the OpenWeatherMap web service  
 It checks if the temperature and sends an sms to the mobile specified. 
 
 In order to run the application you need 
