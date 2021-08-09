@@ -1,21 +1,17 @@
 Amd Telecome Service Demo for sending sms
 -------------------------------------------
 Example of how to communicate with the OpenWeatherMap and routee web service using curl  
+There are three folders app, public and class  
+The class folder keeps the required classes for the application  
+The app folder has the applicaton logic  
+The public folder has the minor file of the html that is used in order to comunicate the application  
 
 
-In order to run the application you need 
+What you need
 -------------------------------------------
 PHP 7.4 or greater  
 enable Curl  
 you need to specify the path for the cacert.pem file in the configuration file config.php  
-
-what is what  
--------------------------------------------
-there are three folders app,public and class  
-the class folder keeps or the classes needed for the application in order to run  
-the app folder has the applicaton logic  
-the public folder has the minor file of the html that is used in order to comunicate the application  
-
 
 how to run  
 -------------------------------------------
