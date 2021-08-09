@@ -41,7 +41,7 @@ class AMDTelecomeSampleWebServiceCall
 
         return $resArr;
     }
-
+    
     public function getName()
     {
         $val = isset($this->data['name']) ? $this->data['name'] : $this->error('name');

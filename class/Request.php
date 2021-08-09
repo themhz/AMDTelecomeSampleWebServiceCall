@@ -18,7 +18,7 @@ class Request{
      * Gets the body of the http request from post or put or get etc.. and filters the input sanitizing the request
      *
      * @return array
-     */
+     */ 
     public function body() : array
     {
         $body = [];
