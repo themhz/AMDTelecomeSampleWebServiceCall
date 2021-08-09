@@ -1,6 +1,6 @@
 Amd Telecome Service Demo for sending sms
 -------------------------------------------
-Example of how to communicate with the OpenWeatherMap and routee web service  
+Example of how to communicate with the OpenWeatherMap and routee web service using curl  
 
 
 In order to run the application you need 
