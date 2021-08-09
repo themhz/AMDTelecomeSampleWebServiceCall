@@ -13,7 +13,7 @@ PHP 7.4 or greater
 enable Curl  
 you need to specify the path for the cacert.pem file in the configuration file config.php  
 
-how to run  
+How to run  
 -------------------------------------------
 1. run php -S localhost:8080 from the command line  
 2. go to the url localhost:8080/public  
