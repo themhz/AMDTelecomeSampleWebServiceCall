@@ -38,39 +38,14 @@ how to run
 Code can be found https://github.com/themhz/AMDTelecomeSampleWebServiceCall
 */
 
+use App\app\App;
 
-require_once 'autoload.php';
+require 'vendor/autoload.php';
 
-$request = new Request();
-$web = false;
-if (isset($request->body()["web"])) {
-    $web = $request->body()["web"] === 'true'? true: false;
-}
+$config = require 'config.php';
+define('CONFIG', $config);
+
+$app = new App();
+$app->start();
 
 
-$amdtelecom = new AMDTelecomeSampleWebServiceCall();
-
-//if the request is run by web or, for example
-//http://localhost:8080/app?name=somename&phone=306911111111
-if ($web == true) {
-    //Starting the application 
-    $response = $amdtelecom->start();
-    echo json_encode($response);
-} else {
-    //if the request is run manually, for example
-    //http://localhost:8080/app?name=somename&phone=306911111111
-    //or 
-    //http://localhost:8080/app?name=somename&phone=306911111111&web=false
-    set_time_limit((60 * 10) + 1);
-    $counter = 0;
-    while ($counter < 10) {
-        $response = $amdtelecom->start();
-        echo json_encode($response);
-        echo "<br>-----------------------------------<br>";
-        $counter++;
-        flush();
-        ob_flush();
-
-        sleep(60);
-    }
-}

@@ -1,8 +1,10 @@
 <?php
+namespace App\classes\handlers;
 
-class Request{
+class RequestHandler{
 
-    public function __construct(){}
+
+    public $body;
 
     /**
      * Returns the HTTP requested method
@@ -12,7 +14,7 @@ class Request{
     public function method() : string
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
-    }
+    }     
 
     /**
      * Gets the body of the http request from post or put or get etc.. and filters the input sanitizing the request
@@ -65,11 +67,18 @@ class Request{
             }
         }
 
+        $this->body = $body;
+
         return $body;
     }
 
     public function isJson($string) {
         json_decode($string);
         return json_last_error() === JSON_ERROR_NONE;
+     }
+
+     public function getField($key): string{
+
+        return !empty($this->body()[$key])? $this->body()[$key] : "";
      }
 }

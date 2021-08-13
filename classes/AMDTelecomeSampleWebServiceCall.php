@@ -1,17 +1,24 @@
 <?php
+namespace App\classes;
 
 class AMDTelecomeSampleWebServiceCall
 {
 
     public $data;
+
     public function __construct()
     {
-        $r = new Request();
-        $this->data = $r->body();
+        global $argv;
+        //$r = new Request();
+        //$this->data = $r->body();
+
+        echo $argv[1]."\n";
+        echo $argv[2];
+        die();
     }
 
     /**
-     * Starts the application main execution body 
+     * Start application control flow
      * Calls the openweathermap with the specfic parameters returns the data converts them to json checks if the weather is above or below 20 C in temperture
      * and then sends the sms to the specified mobile phone
      *

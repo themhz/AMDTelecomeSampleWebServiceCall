@@ -1,4 +1,5 @@
 <?php
+namespace App\classes;
 
 class RouteeNet
 {
@@ -39,7 +40,7 @@ class RouteeNet
     }
 
     //Check the response from routee server
-    private function checkResponse(stdClass $result)
+    private function checkResponse(\stdClass $result)
     {               
         if (isset($result->status) && $result->status == "401") {
             echo '<p style="color:red;">error: url:' . CONFIG['routee_accesstokenurl'] . ' did not return any data. Message returned was: ' . $result->message . ' with code :' . $result->status . '</p>';

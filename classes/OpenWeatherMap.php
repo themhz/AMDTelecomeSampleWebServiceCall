@@ -1,5 +1,7 @@
 <?php
+namespace App\classes;
 
+use App\classes\WebService;
 class OpenWeatherMap extends WebService
 {
 
