@@ -1,9 +1,7 @@
 Amd Telecome Service Demo for sending sms
 -------------------------------------------
 Example of how to communicate with the OpenWeatherMap and routee web service using curl  
-You will find the following folders in the root: app, public, class, vendor  
-The class folder keeps the required classes for the application  
-In class folder you will find two more folders:handlers and interfaces.  
+The application is written in php and can run from console and web  
 
 The app folder has the applicaton controll flow  
 The public folder has an html that can be used to run the app from the web  
