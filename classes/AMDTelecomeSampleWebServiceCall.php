@@ -1,21 +1,24 @@
 <?php
+
 namespace App\classes;
+
+use App\classes\handlers\DisplayHandler;
 
 class AMDTelecomeSampleWebServiceCall
 {
 
-    public $data;
+    public $name;
+    public $phone;
 
-    public function __construct()
-    {
-        global $argv;
-        //$r = new Request();
-        //$this->data = $r->body();
+    public $cityName;
+    public $stateCode;
+    public $countryCode;
+    public $apiKey;
+    public $units;
 
-        echo $argv[1]."\n";
-        echo $argv[2];
-        die();
-    }
+    public $routeeApplicationId;
+    public $routeeapplicationSecret;
+
 
     /**
      * Start application control flow
@@ -26,44 +29,148 @@ class AMDTelecomeSampleWebServiceCall
      */
     public function start()
     {
+
+        $response = $this->getWeatherMap($this->cityName, $this->stateCode, $this->countryCode, $this->apiKey);
+
+        $message = $this->checkTemperature($response->main->temp);
+
+        $accessToken = $this->getRouteeAccessToken();
+
+        $resultSMS = $this->sendRouteeSms($message, "amdTelecom", $accessToken);
         
-        $owm = new OpenWeatherMap("Thessaloníki", "734077", "GR", "b385aa7d4e568152288b3c9f5c2458a5");
-        $response = $owm->getData();
-
-        $resArr = json_decode($response);
-
-        if ($resArr->main->temp > 20) {
-            $message =  "temperature is greater than 20C ".$this->getName()." temperture is " . $resArr->main->temp . "'";
-        } else {
-            $message =  $this->getName()." Temperature less than 20C. Temperture is " . $resArr->main->temp . "'";
-        }
-
-        $routee = new RouteeSms("5c5d5e28e4b0bae5f4accfec", "MGkNfqGud0");
-        $mobileNumber = '+'.$this->getPhone();
-        $from = "amdTelecom";
-
-        $response = $routee->send($message, $mobileNumber, $from);
-        $resArr = json_decode($response);
-
-
-        return $resArr;
+        return $resultSMS;                
     }
-    
+
+
+    public function getWeatherMap(string $cityName = "", string $stateCode = "", string $countryCode = "", string  $apiKey = "", string  $units = "metric")
+    {
+        $owm = new OpenWeatherMap($cityName, $stateCode, $countryCode, $apiKey, $units);
+
+        $response = $owm->getData();
+        return json_decode($response);
+    }
+
+    public function checkTemperature($temp)
+    {
+
+        if ($temp > 20) {
+            return  "temperature is greater than 20C " . $this->getName() . " temperture is " . $temp . "'";
+        } else {
+            return  $this->getName() . " Temperature less than 20C. Temperture is " . $temp . "'";
+        }
+    }
+
+    public function getRouteeAccessToken()
+    {
+        $routeeNet =  new RouteeAccessToken($this->routeeApplicationId, $this->routeeapplicationSecret);
+        return $routeeNet->getAccessToken();
+    }
+
+    public function sendRouteeSms($message, $from, $accessToken){
+        $routeeSMS = new RouteeSms($this->routeeApplicationId, $this->routeeapplicationSecret);
+        return $routeeSMS->send($message, $this->phone, $from, $accessToken);        
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
     public function getName()
     {
-        $val = isset($this->data['name']) ? $this->data['name'] : $this->error('name');
+        $val = isset($this->name) ? $this->name : $this->error('name');
 
         return $val;
+    }
+
+
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
     }
 
     public function getPhone()
     {
-        $val = isset($this->data['phone']) ? $this->data['phone'] : $this->error('phone');
+        $val = isset($this->phone) ? $this->phone : $this->error('phone');
 
         return $val;
     }
 
-    public function error($msg){
+
+    public function getCityName()
+    {
+        $val = isset($this->cityName) ? $this->cityName : $this->error('cityName');
+
+        return $val;
+    }
+
+
+    public function setCityName($cityName)
+    {
+        $this->cityName = $cityName;
+    }
+
+
+    public function getStateCode()
+    {
+        $val = isset($this->stateCode) ? $this->stateCode : $this->error('stateCode');
+        return $val;
+    }
+
+
+    public function setStateCode($stateCode)
+    {
+        $this->stateCode = $stateCode;
+        return $this;
+    }
+
+    public function getCountryCode()
+    {
+        $val = isset($this->countryCode) ? $this->countryCode : $this->error('countryCode');
+
+        return $val;
+    }
+
+
+    public function setCountryCode($countryCode)
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
+    public function getApiKey()
+    {
+        $val = isset($this->apiKey) ? $this->apiKey : $this->error('apiKey');
+
+        return $val;
+    }
+
+
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+
+    public function getUnits()
+    {
+        return $this->units;
+    }
+
+
+    public function setUnits($units)
+    {
+        $this->units = $units;
+
+        return $this;
+    }
+
+
+    public function error($msg)
+    {
         echo json_encode("{error : 'you need to specify a $msg'} in order to send the sms");
         exit();
     }

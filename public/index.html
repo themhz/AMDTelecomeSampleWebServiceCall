@@ -98,7 +98,10 @@
         function submit() {
             document.getElementById("submit").disabled = true;
             document.getElementById("stop").disabled = false;
-            let counter = 0;
+            let counter = 1;
+            send();
+            console.log('run ' + counter);
+            document.getElementById("runs").innerHTML = counter;
             let interval = setInterval(function () {
                 //this code runs every min for 10 min
                 counter++;
@@ -113,7 +116,7 @@
             }, 1000 * 60);
         }
 
-        function send() {
+        function send() {           
             var xhttp = new XMLHttpRequest(); // Δημιουργεί ένα object XMLHttpRequest         
             xhttp.onreadystatechange = function () { //Ένα promise ώστε όταν επιστρέχει το αποτέλεσμα από τον server να εκτελεστεί η παρακάτω ανώμυμη συνάρτηση. 
 
@@ -125,9 +128,9 @@
                 }
             };
 
-            xhttp.open("POST", "app", true); //Προετιμασία της αποστολής δηλώνοντας την μέθοδο το url και τρίτη παράμετρος ότι είναι ασύγχρονη αποστολή.
+            xhttp.open("POST", "/", true); //Προετιμασία της αποστολής δηλώνοντας την μέθοδο το url και τρίτη παράμετρος ότι είναι ασύγχρονη αποστολή.
 
-            xhttp.send(JSON.stringify({ 'phone': document.getElementById('phone').value, 'name': document.getElementById('name').value, 'web': true })); //Τελική αποστολή των δεδομένων στο endpoint.
+            xhttp.send(JSON.stringify({ 'phone': document.getElementById('phone').value, 'name': document.getElementById('name').value })); //Τελική αποστολή των δεδομένων στο endpoint.
         }
     </script>
 </body>

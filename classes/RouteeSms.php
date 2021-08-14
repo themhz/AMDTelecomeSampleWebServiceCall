@@ -1,7 +1,8 @@
 <?php
+
 namespace App\classes;
 
-class RouteeSms extends RouteeNet
+class RouteeSms extends Routee
 {
     /**
      * Constructor to call the parent constructor
@@ -11,26 +12,25 @@ class RouteeSms extends RouteeNet
         parent::__construct($applicationId, $applicationSecret);
     }
 
-    
-     /**
+
+    /**
      * Sends the sms using the routee.net web services sms method
      *
      * @return string
      */
-    public function send($message, $mobileNumber, $from)
+    public function send($message, $mobileNumber, $from, $accessToken)
     {
         $options[CURLOPT_URL] = CONFIG['routee_smsurl'];
         $options[CURLOPT_CAINFO] = $this->curlCainfo;
         $options[CURLOPT_POSTFIELDS] = "{ \"body\": \"$message\",\"to\" : \"$mobileNumber\",\"from\": \"$from\"}";
         $options[CURLOPT_HTTPHEADER] = array(
-            "authorization: Bearer " . $this->getAccessToken(),
+            "authorization: Bearer " . $accessToken,
             "content-type: application/json"
         );
-        
-        $ws = new WebService();
-        $ws->init($options);
-        
-       return $ws->run();
-              
+
+        $this->options += $options;
+
+
+        return $this->processUrl();
     }
 }

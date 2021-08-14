@@ -1,15 +1,15 @@
 <?php
 namespace App\classes\handlers;
-use App\classes\interfaces\Reader;
+use App\classes\interfaces\Enviroment;
 
-class ConsoleHandler implements Reader
+class ConsoleHandler implements Enviroment
 {    
     
     //Gets the parameters requested by the console
-    public function getParams(): array
+    public function getParams(): object
     {
        
-        return ['name' => $this->getName(), 'phone' => $this->getPhone()];
+        return (object)['name' => $this->getName(), 'phone' => $this->getPhone()];
     }
     //checks if its the browser or the console
     public function isCalled(): bool

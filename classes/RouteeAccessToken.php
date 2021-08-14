@@ -1,20 +1,12 @@
 <?php
 namespace App\classes;
 
-class RouteeNet
+class RouteeAccessToken extends Routee
 {
-
-    protected string $applicationId; //The application id used in the Routee API: Example: 5c5d5e28e4b0bae5f4accfec  
-    protected $applicationSecret; //The application secret used in the Routee API: Example: MGkNfqGud0 
-    protected $curlCainfo; //curl.cainfo in php.ini file
-
 
     public function __construct(string $applicationId, string $applicationSecret)
     {
-
-        $this->applicationId = $applicationId;
-        $this->applicationSecret = $applicationSecret;
-        $this->curlCainfo = CONFIG['routee_curlcainfo'];
+        parent::__construct($applicationId, $applicationSecret);        
     }
 
     //Gets the access token from routee. It uses the encoded version of the application id and the application secret
@@ -28,11 +20,9 @@ class RouteeNet
             "content-type: application/x-www-form-urlencoded"
         );
         
-        $ws = new WebService();
-        $ws->init($options);
-
-   
-        $decodedData = json_decode($ws->run());
+        $this->options +=$options;
+           
+        $decodedData = json_decode($this->processUrl());
 
         $this->checkResponse($decodedData);
 

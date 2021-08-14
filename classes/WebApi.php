@@ -1,7 +1,9 @@
 <?php
 namespace App\classes;
 
-class WebService{
+use App\classes\interfaces\WebService;
+
+abstract class WebApi implements WebService{
 
     protected $options;
 
@@ -40,21 +42,18 @@ class WebService{
      *
      * @return string
      */
-    public function run(){
+    public function processUrl(){
 
         $curl = curl_init();            
         curl_setopt_array($curl, $this->options);        
         $response = curl_exec($curl);    
         $err = curl_error($curl);
         curl_close($curl);
-                
-        if ($err) {
-            echo '<p style="color:red">cURL Error #:' . $err.'</p>';    
-            exit();
-        } else {            
-            
-            return $response;
-        }
+             
+        return $err ? $err : $response;        
     }
+
+
+    
 
 }

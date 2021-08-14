@@ -2,9 +2,9 @@
 namespace App\classes\handlers;
 
 use App\classes\handlers\RequestHandler;
-use App\classes\interfaces\Reader;
+use App\classes\interfaces\Enviroment;
 
-class WebHandler extends RequestHandler implements Reader
+class WebHandler extends RequestHandler implements Enviroment
 {
 
     private $name;
@@ -15,11 +15,11 @@ class WebHandler extends RequestHandler implements Reader
     }
     
     //Gets the parameters requested by the console
-    public function getParams(): array
+    public function getParams(): object
     {
         $this->name = $this->getfield("name");
         $this->phone= $this->getfield("phone");
-        return ['name' => $this->getName(), 'phone' => $this->getPhone()];
+        return (object)['name' => $this->getName(), 'phone' => $this->getPhone()];
     }
     //checks if its the browser or the console
     public function isCalled(): bool
