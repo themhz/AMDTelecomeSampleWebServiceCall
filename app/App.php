@@ -69,7 +69,14 @@ class App
     {
 
         set_time_limit((60 * 10) + 1);
-        $counter = 0;
+        $counter = 1;
+        $response = $this->amdtelecom->start();
+            echo json_encode($response);
+            echo "\n ----------------------------------- \n";
+            $counter++;
+            flush();
+            ob_flush();
+            
         while ($counter < 10) {
             $response = $this->amdtelecom->start();
             echo json_encode($response);
