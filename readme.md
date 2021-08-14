@@ -1,7 +1,7 @@
 Amd Telecome Service Demo for sending sms
 -------------------------------------------
 Example of how to communicate with the OpenWeatherMap and routee web service using curl  
-There are four folders app, public, class, vendor
+You will find the following folders in the root: app, public, class, vendor
 The class folder keeps the required classes for the application  
 In class folder you will find two more folders:handlers and interfaces.
 
